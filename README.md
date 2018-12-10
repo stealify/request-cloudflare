@@ -1,16 +1,13 @@
-cloudscraper
+request-cloudflare
 ============
 
 Node.js library to bypass cloudflare's anti-ddos page.
-
-This library is a port of python module [cloudflare-scrape](https://github.com/Anorov/cloudflare-scrape) with couple enhancements and test cases ;)
-. All grats to its author \m/
 
 If the page you want to access is protected by CloudFlare, it will return special page, which expects client to support Javascript to solve challenge.
 
 This small library encapsulates logic which extracts challenge, solves it, submits and returns the request page body.
 
-You can use cloudscraper even if you are not sure if CloudFlare protection is turned on.
+You can use request-cloudflare even if you are not sure if CloudFlare protection is turned on.
 
 In general, CloudFlare has 4 types of _common_ anti-bot pages:
   - Simple html+javascript page with challenge
@@ -20,20 +17,26 @@ In general, CloudFlare has 4 types of _common_ anti-bot pages:
 
 __Unfortunatelly there is no solution, if website is protected by captcha.__
 
-If you notice that for some reason cloudscraper stopped to work, do not hesitate and get in touch with me ( by creating an issue here, for example), so i can update it.
+If you notice that for some reason request-cloudflare stopped to work, do not hesitate and get in touch with me ( by creating an issue here, for example), so i can update it.
 
 Install
 ============
 ```javascript
-npm install cloudscraper
+npm install request-cloudflare
 ```
 
 Usage
 ============
-```javascript
-var cloudscraper = require('cloudscraper');
 
-cloudscraper.get('http://website.com/', function(error, response, body) {
+
+```javascript
+var requestCloudflare = require('request-cloudflare');
+
+//API Promises
+requestCloudflare.promises.get('http://website.com/').then(console.log)
+
+// API Callback
+requestCloudflare.get('http://website.com/', function(error, response, body) {
   if (error) {
     console.log('Error occurred');
   } else {
@@ -45,21 +48,22 @@ cloudscraper.get('http://website.com/', function(error, response, body) {
 or for `POST` action:
 
 ```javascript
-cloudscraper.post('http://website.com/', {field1: 'value', field2: 2}, function(error, response, body) {
-  ...
+requestCloudflare.post('http://website.com/', {field1: 'value', field2: 2}, function(error, response, body) {
+  //...
 });
 ```
 
-A generic request can be made with `cloudscraper.request(options, callback)`. The options object should follow [request's options](https://www.npmjs.com/package/request#request-options-callback). Not everything is supported however, for example http methods other than GET and POST. If you wanted to request an image in binary data you could use the encoding option:
+A generic request can be made with `requestCloudflare.request(options, callback)`. The options object should follow [request's options](https://www.npmjs.com/package/request#request-options-callback). Not everything is supported however, for example http methods other than GET and POST. If you wanted to request an image in binary data you could use the encoding option:
 
 ```javascript
-cloudscraper.request({method: 'GET',
-                      url:'http://website.com/image',
-                      encoding: null,
-                      challengesToSolve: 3, // optional, if CF returns challenge after challenge, how many to solve before failing
-                      followAllRedirects: true, // mandatory for successful challenge solution
-                      }, function(err, response, body) {
-                      //body is now a buffer object instead of a string
+requestCloudflare.request({
+    method: 'GET',
+    url:'http://website.com/image',
+    encoding: null, //=>utf8
+    challengesToSolve: 3, // optional, if CF returns challenge after challenge, how many to solve before failing
+    followAllRedirects: true, // mandatory for successful challenge solution
+  }, function(err, response, body) {
+    //body is now a buffer object instead of a string
 });
 ```
 
@@ -79,29 +83,29 @@ Where `errorType` can be following:
 
 Running tests
 ============
-Clone this repo, do `npm install` and then just `grunt`
+
 
 ### Unknown error? Library stopped working? ###
-Let me know, by opening [issue](https://github.com/codemanki/cloudscraper/issues) in this repo and i will update library asap. Please, provide url and body of page where cloudscraper failed.
+Let me know, by opening [issue](https://github.com/codemanki/request-cloudflare/issues) in this repo and i will update library asap. Please, provide url and body of page where request-cloudflare failed.
 
 
-CloudScraper uses [Request](https://github.com/request/request) to perform requests.
+request-cloudflare uses [Request](https://github.com/request/request) to perform requests.
 
 WAT
 ===========
-Current cloudflare implementation requires browser to respect the timeout of 5 seconds and cloudscraper mimics this behaviour. So everytime you call `cloudscraper.get` you should expect it to return result after min 6 seconds.
+Current cloudflare implementation requires browser to respect the timeout of 5 seconds and request-cloudflare mimics this behaviour. So everytime you call `requestCloudflare.get` you should expect it to return result after 5+ seconds.
 
 ## TODO
  - [x] Check for recaptcha
- - [ ] Support cookies, so challenge can be solved once per session
+ - [x] Support cookies, so challenge can be solved once per session
  - [x] Support page with simple redirects
  - [x] Add proper testing
  - [x] Remove manual 302 processing, replace with `followAllRedirects` param
  - [ ] Parse out the timeout from chalenge page
- - [ ] Reoder the arguments in get/post/request methods and allow custom options to be passed in
+ - [x] Reoder the arguments in get/post/request methods and allow custom options to be passed in
  - [ ] Expose solve methods to use them independently
  - [ ] Support recaptcha solving
- - [ ] Promisification
+ - [x] Promisification
 
 ## Kudos to contributors
  - [roflmuffin](https://github.com/roflmuffin)
@@ -111,4 +115,6 @@ Current cloudflare implementation requires browser to respect the timeout of 5 s
 
 ## Dependencies
 * request https://github.com/request/request
+* cheerio https://github.com/cheerio/cheerio
+This library is inspired by python module [cloudflare-scrape](https://github.com/Anorov/cloudflare-scrape) 
 
