@@ -30,7 +30,7 @@ Usage
 
 
 ```javascript
-var requestCloudflare = require('request-cloudflare');
+const { requestCloudflare } = require('request-cloudflare');
 
 //API Promises
 requestCloudflare.promises.get('http://website.com/').then(console.log)
@@ -116,5 +116,5 @@ Current cloudflare implementation requires browser to respect the timeout of 5 s
 ## Dependencies
 * request https://github.com/request/request
 * cheerio https://github.com/cheerio/cheerio
-This library is inspired by python module [cloudflare-scrape](https://github.com/Anorov/cloudflare-scrape) 
 
+This library is inspired by python module [cloudflare-scrape](https://github.com/Anorov/cloudflare-scrape);
