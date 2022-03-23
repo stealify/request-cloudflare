@@ -1,9 +1,13 @@
 {
   "name": "request-cloudflare",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Bypasses cloudflare's anti-ddos page",
   "main": "src/request-cloudflare.js",
-  "module": "src/request-cloudflare.mjs",
+  "type": "commonjs",
+  "exports": { 
+    "import": "src/request-cloudflare.mjs",
+    "require": "src/request-cloudflare.js"
+  },
   "files": [
     "src"
   ],
@@ -29,7 +33,7 @@
   "homepage": "https://github.com/stealify/request-cloudflare",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
-    "esm": "^3.0.84",
+    "esm": "^3.2.25",
     "request": "^2.88.0"
   },
   "devDependencies": {}
