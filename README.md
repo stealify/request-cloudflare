@@ -28,10 +28,11 @@ npm install request-cloudflare
 Usage
 ============
 
-
 ```javascript
 const { requestCloudflare } = require('request-cloudflare');
+```
 
+```javascript
 //API Promises
 requestCloudflare.promises.get('http://website.com/').then(console.log)
 
