@@ -245,4 +245,4 @@ function setCookieAndReload(response, body, options, callback) {
   });
 }
 
-export { requestCloudflare,requestCloudflare as default};
+export { requestCloudflare };
